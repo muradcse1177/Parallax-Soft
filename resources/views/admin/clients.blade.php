@@ -35,12 +35,24 @@
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="form-group">
-                            <label for=""> Company Name</label>
-                            <input type="text" class="form-control name" id="name"   name="name" placeholder="Enter Company Name" required>
+                            <label for=""> Client Name</label>
+                            <input type="text" class="form-control name" id="name"   name="name" placeholder="Enter Client Name" required>
                         </div>
                         <div class="form-group">
                             <label for="">Photo(Must be W-190px * H-105px)</label>
                             <input type="file" class="form-control photo" id="photo" accept="image/*"  name="photo" placeholder="Enter Slide" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Designation</label>
+                            <input type="text" class="form-control designation" id="designation"   name="designation" placeholder="Enter Designation">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Testimonial</label>
+                            <input type="text" class="form-control testimonial" id="testimonial"   name="testimonial" placeholder="Enter Testimonial">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Live Work Link</label>
+                            <input type="text" class="form-control link" id="link"   name="link" placeholder="Enter Live Work Link">
                         </div>
                     </div>
                     <div class="box-footer">
@@ -151,6 +163,9 @@
                     var data = response.data;
                     $('.id').val(data.id);
                     $('.name').val(data.name);
+                    $('.testimonial').val(data.testimonial);
+                    $('.designation').val(data.designation);
+                    $('.link').val(data.link);
                 }
             });
         }

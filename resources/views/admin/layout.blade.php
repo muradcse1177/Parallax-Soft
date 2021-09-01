@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+@php
+    use Illuminate\Support\Facades\DB;
+        $rows = DB::table('company_info')->first();
+        $services = DB::table('services')->get();
+        $user = DB::table('users')->where('id',Cookie::get('user_id'))->first();
+@endphp
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,9 +63,9 @@
         <!-- Logo -->
         <a href="" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>S</b>B</span>
+            <span class="logo-mini"><b>P</b>S</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Sobuj Bari</b></span>
+            <span class="logo-lg"><b>{{@$rows->name}}</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -86,7 +92,7 @@
                                     <li><!-- start message -->
                                         <a href="#">
                                             <div class="pull-left">
-                                                <img src="{{url('public/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
+                                                <img src="{{@$rows->photo}}" class="img-circle" alt="User Image">
                                             </div>
                                             <h4>
                                                 Support Team
@@ -158,13 +164,13 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{'public/images/murad.jpg'}}" class="user-image" alt="User Image">
+                            <img src="{{'public/images/'.$user->photo}}" class="user-image" alt="User Image">
                             <span class="hidden-xs">{{ Cookie::get('user_name') }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="{{'public/images/murad.jpg'}}" class="img-circle" alt="User Image">
+                                <img src="{{'public/images/'.$user->photo}}" class="img-circle" alt="User Image">
 
                                 <p>
                                     {{ Cookie::get('user_name') }}
@@ -195,7 +201,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{'public/images/murad.jpg'}}" class="img-circle" alt="User Image">
+                    <img src="{{'public/images/'.$user->photo}}" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -205,10 +211,11 @@
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">Website Management</li>
                 <li class="@yield('home')"><a href ="{{ url('home') }}" ><i class="fa fa-address-book"></i> <span>Company Info Management</span></a></li>
-                <li class="@yield('mainSlide')"><a href ="{{ url('mainSlide') }}" ><i class="fa fa-image"></i> <span>Slide Management</span></a></li>
+                <li class="@yield('category')"><a href ="{{ url('category') }}" ><i class="fa fa-calendar-times-o"></i> <span>Category Management</span></a></li>
+                <li class="@yield('subCategory')"><a href ="{{ url('subCategory') }}" ><i class="fa fa-medkit"></i> <span>Sub Category Management</span></a></li>
                 <li class="@yield('servicesAdmin')"><a href ="{{ url('servicesAdmin') }}" ><i class="fa fa-medkit"></i> <span>Service Management</span></a></li>
-                <li class="@yield('projects')"><a href ="{{ url('projects') }}" ><i class="fa fa-gear"></i> <span>Project Management</span></a></li>
-                <li class="@yield('clients')"><a href ="{{ url('clients') }}" ><i class="fa fa-clipboard"></i> <span>Client Management</span></a></li>
+                <li class="@yield('products')"><a href ="{{ url('products') }}" ><i class="fa fa-gear"></i> <span>Products Management</span></a></li>
+                <li class="@yield('clients')"><a href ="{{ url('clientAdmin') }}" ><i class="fa fa-clipboard"></i> <span>Client Management</span></a></li>
                 <li class="@yield('users')"><a href ="{{ url('users') }}" ><i class="fa fa-user"></i> <span>Users Management</span></a></li>
                 <li class="@yield('receivedEmail')"><a href ="{{ url('receivedEmail') }}" ><i class="fa fa-envelope"></i> <span>Received Email</span></a></li>
             </ul>
@@ -230,7 +237,7 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-        <center><strong>&copy; Sobuj Bari,{{ Date('Y')}}. Developed By  <a href="https://parallax-soft.com/">Parallax Soft Inc.</a></strong></center>
+        <center><strong>&copy; Parallax Soft Inc,{{ Date('Y')}}. Developed By  <a href="https://parallax-soft.com/">Parallax Soft Inc.</a></strong></center>
     </footer>
 </div>
 <!-- ./wrapper -->

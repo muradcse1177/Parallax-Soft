@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -50,9 +51,7 @@ class SettingController extends Controller
                     }
                 }
                 else{
-                    $rows = DB::table('company_info')->select('name')->where([
-                        ['name', '=', $request->name]
-                    ])->get()->count();
+                    $rows = DB::table('company_info')->get()->count();
                     if ($rows > 0) {
                         return back()->with('errorMessage', 'Data Already Exits.');
                     } else {
@@ -102,37 +101,24 @@ class SettingController extends Controller
             return response()->json(array('data'=>$ex->getMessage()));
         }
     }
-    public function mainSlide(){
+
+    public function category(){
         try{
-            $rows = DB::table('slide')->orderBy('id','desc')->paginate(20);
-            return view('admin.mainSlide', ['slides' => $rows]);
+            $rows = DB::table('category')->orderBy('id','desc')->get();
+            return view('admin.category', ['services' => $rows]);
         }
         catch(\Illuminate\Database\QueryException $ex){
             return back()->with('errorMessage', $ex->getMessage());
         }
     }
-    public function insertMainSlide (Request $request){
+    public function insertCategory (Request $request){
         try{
             if($request) {
                 if ($request->id) {
-                    if($request->hasFile('slide')) {
-                        $image       = $request->file('slide');
-                        $filename    = time() . '.' .$image->getClientOriginalName();
-                        $image_resize = Image::make($image->getRealPath());
-                        $image_resize->text('© '.Date('Y').' Sobuj Bari - All Rights Reserved', 150, 400, function($font) {
-                            $font->size(35);
-                            $font->color('#FF0000');
-                            $font->align('center');
-                            $font->valign('center');
-                            $font->angle(120);
-                        });
-                        $image_resize->insert(public_path('logo.jpg'), 'middle', 10, 10);
-                        $image_resize->save(public_path('images/' .$filename));
-                    }
-                    $result =DB::table('slide')
+                    $result =DB::table('category')
                         ->where('id', $request->id)
                         ->update([
-                            'slide' => $filename,
+                            'title' => $request->title,
                         ]);
                     if ($result) {
                         return back()->with('successMessage', 'Data Update Successfully Done.');
@@ -141,22 +127,8 @@ class SettingController extends Controller
                     }
                 }
                 else{
-                    if($request->hasFile('slide')) {
-                        $image       = $request->file('slide');
-                        $filename    = time() . '.' .$image->getClientOriginalName();
-                        $image_resize = Image::make($image->getRealPath());
-                        $image_resize->text('© '.Date('Y').' Sobuj Bari - All Rights Reserved', 150, 400, function($font) {
-                            $font->size(35);
-                            $font->color('#FF0000');
-                            $font->align('center');
-                            $font->valign('center');
-                            $font->angle(120);
-                        });
-                        $image_resize->insert(public_path('logo.jpg'), 'middle', 10, 10);
-                        $image_resize->save(public_path('images/' .$filename));
-                    }
-                    $result = DB::table('slide')->insert([
-                        'slide' => $filename,
+                    $result = DB::table('category')->insert([
+                        'title' => $request->title,
                     ]);
                     if ($result) {
                         return back()->with('successMessage', 'Data Insert Successfully Done.');
@@ -174,9 +146,9 @@ class SettingController extends Controller
         }
     }
 
-    public function getMainSlideById(Request $request){
+    public function getCategoryById(Request $request){
         try{
-            $rows = DB::table('slide')
+            $rows = DB::table('category')
                 ->where('id', $request->id)
                 ->first();
             return response()->json(array('data'=>$rows));
@@ -185,11 +157,11 @@ class SettingController extends Controller
             return response()->json(array('data'=>$ex->getMessage()));
         }
     }
-    public function deleteSlideList(Request $request){
+    public function deleteCategoryList(Request $request){
         try{
 
             if($request->id) {
-                $result =DB::table('slide')
+                $result =DB::table('category')
                     ->where('id', $request->id)
                     ->delete();
                 if ($result) {
@@ -206,7 +178,91 @@ class SettingController extends Controller
             return back()->with('errorMessage', $ex->getMessage());
         }
     }
+    public function subCategory(){
+        try{
+            $rows = DB::table('category')->get();
+            $rows1 = DB::table('sub_category')
+                ->select('*','sub_category.id as s_id')
+                ->join('category','category.id','=','sub_category.cat_id')
+                ->orderBy('sub_category.id','desc')
+                ->paginate(30);
+            return view('admin.subCategory', ['cat' => $rows, 'sub_cats' =>$rows1]);
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            return back()->with('errorMessage', $ex->getMessage());
+        }
+    }
 
+    public function insertSubCategory (Request $request){
+        try{
+            if($request) {
+                if ($request->id) {
+                    $result =DB::table('sub_category')
+                        ->where('id', $request->id)
+                        ->update([
+                            'cat_id' => $request->cat_id,
+                            'sub_name' => $request->sub_name,
+                        ]);
+                    if ($result) {
+                        return back()->with('successMessage', 'Data Update Successfully Done.');
+                    } else {
+                        return back()->with('errorMessage', 'Please Try Again.');
+                    }
+                }
+                else{
+                    $result = DB::table('sub_category')->insert([
+                        'cat_id' => $request->cat_id,
+                        'sub_name' => $request->sub_name,
+                    ]);
+                    if ($result) {
+                        return back()->with('successMessage', 'Data Insert Successfully Done.');
+                    } else {
+                        return back()->with('errorMessage', 'Please Try Again.');
+                    }
+                }
+            }
+            else{
+                return back()->with('errorMessage', 'Please Fill Up The Form.');
+            }
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            return back()->with('errorMessage', $ex->getMessage());
+        }
+
+    }
+
+    public function getSubCategoryById(Request $request){
+        try{
+            $rows = DB::table('sub_category')
+                ->where('id', $request->id)
+                ->first();
+            return response()->json(array('data'=>$rows));
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            return response()->json(array('data'=>$ex->getMessage()));
+        }
+    }
+    public function deleteSubCategoryList(Request $request){
+        try{
+
+            if($request->id) {
+                $result =DB::table('sub_category')
+                    ->where('id', $request->id)
+                    ->delete();
+                if ($result) {
+                    return back()->with('successMessage', 'Data Delete Successfully.');
+                } else {
+                    return back()->with('errorMessage', 'Please Try Again.');
+                }
+            }
+            else{
+                return back()->with('errorMessage', 'Please Try Again.');
+            }
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            return back()->with('errorMessage', $ex->getMessage());
+        }
+    }
     public function servicesAdmin(){
         try{
             $rows = DB::table('services')->orderBy('id','desc')->get();
@@ -226,18 +282,33 @@ class SettingController extends Controller
                         $image_resize = Image::make($image->getRealPath());
                         $image_resize->resize(370, 240);
                         $image_resize->save(public_path('images/' .$filename));
+                        $result =DB::table('services')
+                            ->where('id', $request->id)
+                            ->update([
+                                'title' => $request->title,
+                                'description' => $request->description,
+                                'image' => $filename,
+                                'slug' => $request->slug,
+                            ]);
+                        if ($result) {
+                            return back()->with('successMessage', 'Data Update Successfully Done.');
+                        } else {
+                            return back()->with('errorMessage', 'Please Try Again.');
+                        }
                     }
-                    $result =DB::table('services')
-                        ->where('id', $request->id)
-                        ->update([
-                            'title' => $request->title,
-                            'description' => $request->description,
-                            'image' => $filename,
-                        ]);
-                    if ($result) {
-                        return back()->with('successMessage', 'Data Update Successfully Done.');
-                    } else {
-                        return back()->with('errorMessage', 'Please Try Again.');
+                    else{
+                        $result =DB::table('services')
+                            ->where('id', $request->id)
+                            ->update([
+                                'title' => $request->title,
+                                'description' => $request->description,
+                                'slug' => $request->slug,
+                            ]);
+                        if ($result) {
+                            return back()->with('successMessage', 'Data Update Successfully Done.');
+                        } else {
+                            return back()->with('errorMessage', 'Please Try Again.');
+                        }
                     }
                 }
                 else{
@@ -252,6 +323,7 @@ class SettingController extends Controller
                         'title' => $request->title,
                         'description' => $request->description,
                         'image' => $filename,
+                        'slug' => $request->slug,
                     ]);
                     if ($result) {
                         return back()->with('successMessage', 'Data Insert Successfully Done.');
@@ -301,57 +373,85 @@ class SettingController extends Controller
             return back()->with('errorMessage', $ex->getMessage());
         }
     }
-    public function projects(){
+    public function products(){
         try{
-            $rows = DB::table('projects')->orderBy('id','desc')->paginate(20);
-            return view('admin.projects', ['projects' => $rows]);
+            $rows = DB::table('category')->get();
+            $rows1 = DB::table('projects')
+                ->select('*','projects.id as p_id')
+                ->join('category','category.id','=','projects.cat_id')
+                ->join('sub_category','sub_category.id','=','projects.subcat_id')
+                ->orderBy('projects.id','desc')
+                ->paginate(20);
+            return view('admin.products', ['projects' => $rows1,'cat' => $rows,]);
         }
         catch(\Illuminate\Database\QueryException $ex){
             return back()->with('errorMessage', $ex->getMessage());
         }
     }
+    public function getSubCatIdListAll(Request $request){
+        try{
+            $rows = DB::table('sub_category')
+                ->where('cat_id', $request->id)
+                ->get();
+            return response()->json(array('data'=>$rows));
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            return response()->json(array('data'=>$ex->getMessage()));
+        }
+    }
     public function insertProjects (Request $request){
         try{
-
             if($request) {
                 if ($request->id) {
-                    $row =DB::table('projects')
-                        ->where('id', $request->id)
-                        ->first();
+                    $data =DB::table('projects')
+                        ->where('id', $request->id)->first();
                     if($request->hasFile('image')) {
                         $image       = $request->file('image');
-                        $filenameImage    = 'cover'.time() . '.' .$image->getClientOriginalName();
+                        $filenameImage    = time() . '.' .$image->getClientOriginalName();
                         $image_resize = Image::make($image->getRealPath());
-                        $image_resize->resize(370, 270);
+                        $image_resize->resize(1920, 1000);
                         $image_resize->save(public_path('images/' .$filenameImage));
                     }
                     else{
-                        $filenameImage =  $row->cover_phote;
+                        $filenameImage = $data->cover_phote;
                     }
                     $slider_photo = '';
-                    $i =0;
                     if ($request->hasFile('slider')) {
                         $files = $request->file('slider');
+
                         foreach ($files as $file) {
-                            $targetFolder = 'public/images/';
-                            $pname = $i.time() . '.' . $file->getClientOriginalName();
-                            $image_resize = Image::make($file->getRealPath());
-                            $image_resize->resize(370, 200);
-                            $image_resize->save(public_path('images/' .$pname));
-                            $slider_photo .=  $pname.',';
-                            $i++;
+                            $fileNameSlider = time() . '.'. $file->getClientOriginalName();
+                            $image_resize = Image::make($image->getRealPath());
+                            $image_resize->resize(1920, 1000);
+                            $image_resize->save(public_path('images/' .$fileNameSlider));
+                            $slider_photo .= $fileNameSlider .',';
                         }
+                        $slider_photo = json_encode($slider_photo);
                     }
-                    $slider_photo .= json_decode($row->slider_photo);
+                    else{
+                        $slider_photo = $data->slider_photo;
+                    }
                     $result =DB::table('projects')
                         ->where('id', $request->id)
                         ->update([
-                            'type' => $request->type,
+                            'cat_id' => $request->cat_id,
+                            'subcat_id' => $request->subcat_id,
                             'name' => $request->name,
                             'info' => $request->info,
                             'description' => $request->description,
                             'cover_phote' => $filenameImage,
-                            'slider_photo' => json_encode($slider_photo),
+                            'slider_photo' => $slider_photo,
+                            'type' => $request->type,
+                            'price' => $request->price,
+                            'slug' => $request->slug,
+                            'domain' => $request->domain,
+                            'hosting' => $request->hosting,
+                            'demo' => $request->demo,
+                            'discount' => $request->discount,
+                            'pos' => $request->pos,
+                            'seo_title' => $request->seo_title,
+                            'seo_keyword' => $request->seo_keyword,
+                            'seo_description' => $request->	seo_description,
                         ]);
                     if ($result) {
                         return back()->with('successMessage', 'Data Update Successfully Done.');
@@ -364,30 +464,40 @@ class SettingController extends Controller
                         $image       = $request->file('image');
                         $filenameImage    = time() . '.' .$image->getClientOriginalName();
                         $image_resize = Image::make($image->getRealPath());
-                        $image_resize->resize(370, 270);
+                        $image_resize->resize(1920, 1000);
                         $image_resize->save(public_path('images/' .$filenameImage));
                     }
                     $slider_photo = '';
-                    $i =0;
                     if ($request->hasFile('slider')) {
                         $files = $request->file('slider');
+
                         foreach ($files as $file) {
-                            $targetFolder = 'public/images/';
-                            $pname = $i.time() . '.' . $file->getClientOriginalName();
-                            $image_resize = Image::make($file->getRealPath());
-                            $image_resize->resize(370, 200);
-                            $image_resize->save(public_path('images/' .$pname));
-                            $slider_photo .=  $pname.',';
-                            $i++;
+                            $fileNameSlider = time() . '.'. $file->getClientOriginalName();
+                            $image_resize = Image::make($image->getRealPath());
+                            $image_resize->resize(1920, 1000);
+                            $image_resize->save(public_path('images/' .$fileNameSlider));
+                            $slider_photo .= $fileNameSlider .',';
                         }
                     }
                     $result = DB::table('projects')->insert([
-                        'type' => $request->type,
+                        'cat_id' => $request->cat_id,
+                        'subcat_id' => $request->subcat_id,
                         'name' => $request->name,
                         'info' => $request->info,
                         'description' => $request->description,
                         'cover_phote' => $filenameImage,
                         'slider_photo' => json_encode($slider_photo),
+                        'type' => $request->type,
+                        'price' => $request->price,
+                        'slug' => $request->slug,
+                        'domain' => $request->domain,
+                        'hosting' => $request->hosting,
+                        'demo' => $request->demo,
+                        'discount' => $request->discount,
+                        'pos' => $request->pos,
+                        'seo_title' => $request->seo_title,
+                        'seo_keyword' => $request->seo_keyword,
+                        'seo_description' => $request->	seo_description,
                     ]);
                     if ($result) {
                         return back()->with('successMessage', 'Data Insert Successfully Done.');
@@ -456,13 +566,26 @@ class SettingController extends Controller
                         $image_resize = Image::make($image->getRealPath());
                         $image_resize->resize(370, 270);
                         $image_resize->save(public_path('images/' .$filenameImage));
+                        $result =DB::table('clients')
+                            ->where('id', $request->id)
+                            ->update([
+                                'name' => $request->name,
+                                'photo' => $filenameImage,
+                                'designation' => $request->designation,
+                                'testimonial' => $request->testimonial,
+                                'link' => $request->link,
+                            ]);
                     }
-                    $result =DB::table('clients')
-                        ->where('id', $request->id)
-                        ->update([
-                            'name' => $request->name,
-                            'photo' => $filenameImage,
-                        ]);
+                    else{
+                        $result =DB::table('clients')
+                            ->where('id', $request->id)
+                            ->update([
+                                'name' => $request->name,
+                                'designation' => $request->designation,
+                                'testimonial' => $request->testimonial,
+                                'link' => $request->link,
+                            ]);
+                    }
                     if ($result) {
                         return back()->with('successMessage', 'Data Update Successfully Done.');
                     } else {
@@ -480,6 +603,9 @@ class SettingController extends Controller
                     $result = DB::table('clients')->insert([
                         'name' => $request->name,
                         'photo' => $filenameImage,
+                        'designation' => $request->designation,
+                        'testimonial' => $request->testimonial,
+                        'link' => $request->link,
                     ]);
                     if ($result) {
                         return back()->with('successMessage', 'Data Insert Successfully Done.');

@@ -2,6 +2,9 @@
 @section('title', 'Service Management')
 @section('page_header', 'Service Management')
 @section('servicesAdmin','active')
+@section('extracss')
+    <link rel="stylesheet" href="{{url('public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
+@endsection
 @section('content')
     @if ($message = Session::get('successMessage'))
         <div class="alert alert-success alert-dismissible">
@@ -38,12 +41,17 @@
                                 <input type="text" class="form-control title" id="title" name="title" placeholder="Enter Title" required>
                             </div>
                             <div class="form-group">
+                                <label for="">Service Slug</label>
+                                <input type="text" class="form-control slug" id="slug" name="slug" placeholder="Enter slug" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="">Service Image</label>
                                 <input type="file" class="form-control image" id="image" accept="image/*"  name="image" placeholder="Enter image" required>
                             </div>
                             <div class="form-group">
                                 <label for="">Service Description</label>
-                                <textarea  class="form-control description" rows="5" id="description" name="description" placeholder="Enter Description" required></textarea>
+                                <textarea class="textarea description" id="description" placeholder="Product Description" name="description"
+                                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" required></textarea>
                             </div>
                         </div>
                         <div class="box-footer">
@@ -66,13 +74,13 @@
                         <tr>
                             <th>Image </th>
                             <th>Title </th>
-                            <th>Title </th>
+                            <th>Services </th>
                         </tr>
                         @foreach($services as $service)
                             <tr>
                                 <td> <img src="{{'public/images/'.$service->image}}" height="50" width="50"> </td>
                                 <td> {{$service->title}} </td>
-                                <td width="70%"> {{$service->description}} </td>
+                                <td width="70%"> {!! nl2br($service->description) !!} </td>
                                 <td class="td-actions text-center">
                                     <button type="button" rel="tooltip" class="btn btn-success edit" data-id="{{$service->id}}">
                                         <i class="fa fa-edit"></i>
@@ -114,8 +122,10 @@
     </div>
 @endsection
 @section('js')
+    <script src="{{url('public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
     <script>
         $(document).ready(function(){
+            $('.textarea').wysihtml5();
             $('.select2').select2();
             $(".addbut").click(function(){
                 $(".divform").show();
@@ -156,7 +166,9 @@
                     var data = response.data;
                     $('.id').val(data.id);
                     $('.title').val(data.title);
-                    $('.description').val(data.description);
+                    $('.slug').val(data.slug);
+                    $(".image").prop('required',false);
+                    $('#description ~ iframe').contents().find('.wysihtml5-editor').html(data.description);
                 }
             });
         }

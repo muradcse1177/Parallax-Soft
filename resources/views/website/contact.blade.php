@@ -1,128 +1,161 @@
 @extends('website.layout')
-@section('title', 'Project-Details')
-@section('cu', 'current')
+@section('title', 'Contact || Parallax Soft Inc')
+@section('contact', 'active')
 @section('content')
 
-    @php
-        use Illuminate\Support\Facades\DB;
-            $rows = DB::table('company_info')->first();
-            $services = DB::table('services')->get();
-    @endphp
-    <section class="main-slider">
-        <div class="rev_slider_wrapper fullwidthbanner-container"  id="rev_slider_one_wrapper" data-source="gallery">
-            <div class="rev_slider fullwidthabanner" id="rev_slider_one" data-version="5.4.1">
+    <div class="page-banner-area">
+        <div class="container">
+            <div class="page-banner-content">
+                <h2>Contact Us</h2>
                 <ul>
-                    @foreach($slides as $slide)
-                        <li>
-                            <img src="{{url('public/images/'.$slide->slide)}}">
-                        </li>
-                    @endforeach
+                    <li>
+                        <a href="{{url('/')}}">Home</a>
+                    </li>
+                    <li>Contact</li>
                 </ul>
             </div>
         </div>
-        <div class="contact-number"><span class="icon flaticon-phone-call"></span>Call Us: {{$rows->phone}}</div>
-    </section>
-    <section class="call-to-action-section-two" style="background-image:url(public/images/background/7.jpg)">
-        <div class="auto-container">
-            <div class="row clearfix">
-
-                <div class="column col-md-7 col-sm-12 col-xs-12">
-                    <h2><span class="theme_color">Construction</span> Company</h2>
-                    <div class="text">If you have any construction & renovation work need, simply call our 24 hour emergency number.</div>
-                </div>
-                <div class="btn-column col-md-5 col-sm-12 col-xs-12">
-                    <div class="number">+8801707011562 <span class="theme_color"> or </span> <a href="{{url('contact')}}" class="theme-btn btn-style-five">Contact Us</a> </div>
-                </div>
-
-            </div>
+        <div class="page-banner-shape-1" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/page-banner/shape-1.png')}}" alt="image">
         </div>
-    </section>
-    <section class="map-section">
-        <!--Map Outer-->
-        <div class="map-outer">
-            <!--Map Canvas-->
-            <div class="map-canvas"
-                 data-zoom="10"
-                 data-lat="23.798914766489954",
-                 data-lng=" 90.40298054023401"
-                 data-type="roadmap"
-                 data-hue="#ffc400"
-                 data-title="{{$rows->name}}"
-                 data-icon-path="{{url("public/images/icons/map-marker.png")}}"
-                 data-content="{{$rows->address}}<br><a href='mailto:{{$rows->email}}'>{{$rows->email}}</a>">
-            </div>
+        <div class="page-banner-shape-2" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/page-banner/shape-2.png')}}" alt="image">
         </div>
-    </section>
-    <section class="contact-section">
-        <div class="auto-container">
+        <div class="page-banner-shape-3" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/page-banner/shape-3.png')}}" alt="image">
+        </div>
+        <div class="page-banner-shape-4" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/page-banner/shape-4.png')}}" alt="image">
+        </div>
+    </div>
+    <div class="contact-area ptb-100">
+        <div class="container">
+            <div class="contact-form">
+                <h3>Get in Touch</h3>
+                @if ($message = Session::get('successMessage'))
+                    <div class="alert alert-success alert-dismissible">
 
-            <h2><span class="theme_color">Get</span> in Touch</h2>
-            <div class="text">You can talk to our online representative at any time. Please use our Live Chat System on our website or Fill up below instant messaging programs. <br> Please be patient, We will get back to you. Our 24/7 Support, General Inquiries Phone: +8801707011562</div>
-            <div class="row clearfix">
-                <div class="form-column col-lg-9 col-md-8 col-sm-12 col-xs-12">
-                    <div class="inner-column">
-                        <div class="contact-form style-two">
-                            <div class="contact-form">
-                                {{ Form::open(array('url' => 'send-mail',  'method' => 'post')) }}
-                                {{ csrf_field() }}
-                                <div class="row clearfix">
-                                    <div class="row clearfix">
-                                        <div class="form-group col-md-6 col-sm-6 co-xs-12">
-                                            <input type="text" name="name" value="" placeholder="Name" required>
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-6 co-xs-12">
-                                            <input type="email" name="email" value="" placeholder="Email" required>
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-6 co-xs-12">
-                                            <input type="text" name="subject" value="" placeholder="Subject" required>
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-6 co-xs-12">
-                                            <input type="text" name="phone" value="" placeholder="Phone" required>
-                                        </div>
-                                        <div class="form-group col-md-12 col-sm-12 co-xs-12">
-                                            <textarea name="message" placeholder="Your Massage"></textarea>
-                                        </div>
-                                        <div class="form-group col-md-12 col-sm-12 co-xs-12">
-                                            <button type="submit" class="theme-btn btn-style-one">Send Message</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{ Form::close() }}
+                        <h4><i class="icon fa fa-check"></i> Thank You!!</h4>
+                        {{ $message }}</b>
+                    </div>
+                @endif
+                @if ($message = Session::get('errorMessage'))
+
+                    <div class="alert alert-warning alert-dismissible">
+                        <h4><i class="icon fa fa-warning"></i> Sorry!</h4>
+                        {{ $message }}
+                    </div>
+                @endif
+                    {{ Form::open(array('url' => 'send-mail',  'method' => 'post',  'id' => '')) }}
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="name" id="name" class="form-control" required data-error="Please enter your name" placeholder="Name*">
+                                <div class="help-block with-errors"></div>
                             </div>
-                            @if ($message = Session::get('successMessage'))
-                                <div class="alert alert-success alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <h4><i class="icon fa fa-check"></i> Thank You!!</h4>
-                                    {{ $message }}</b>
-                                </div>
-                            @endif
-                            @if ($message = Session::get('errorMessage'))
-
-                                <div class="alert alert-warning alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <h4><i class="icon fa fa-warning"></i> Sorry!</h4>
-                                    {{ $message }}
-                                </div>
-                            @endif
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" class="form-control" required data-error="Please enter your email" placeholder="Email*">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="phone" id="phone_number" required data-error="Please enter your number" class="form-control" placeholder="Phone">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="subject" id="msg_subject" class="form-control" required data-error="Please enter your subject" placeholder="Subject">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <textarea name="message" class="form-control" id="message" cols="30" rows="5" required data-error="Write your message" placeholder="Message"></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <button type="submit"  class="default-btn">Send Message <i class="ri-arrow-right-line"></i><span></span></button>
+                            <div id="msgSubmit" class="h3 text-center hidden"></div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
+                {{ Form::close() }}
+            </div>
+        </div>
+    </div>
+    <div class="contact-info-area pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-12">
+                    <div class="contact-address">
+                        <h3>Contact Address:</h3>
+                        <p style="text-align: justify;">{{substr($info->about,0,145).'...'}}</p>
+                        <ul class="address-info">
+                            <li>
+                                <i class="ri-customer-service-line"></i>
+                                <a href="tel:{{$info->phone}}">{{$info->phone}}</a>
+                            </li>
+                            <li>
+                                <i class="ri-global-line"></i>
+                                <a href="mailto:{{$info->email}}"><span>{{$info->email}}</span></a>
+                            </li>
+                            <li>
+                                <i class="ri-map-pin-line"></i>
+                                {{ $info->address}}
+                            </li>
+                        </ul>
+                        <ul class="address-social">
+                            <li>
+                                <a href="https://web.facebook.com/ParallaxSoft" target="_blank">
+                                    <i class="ri-facebook-fill"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank">
+                                    <i class="ri-twitter-fill"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank">
+                                    <i class="ri-linkedin-fill"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://m.me/ParallaxSoft" target="_blank">
+                                    <i class="ri-messenger-fill"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="info-column col-lg-3 col-md-4 col-sm-12 col-xs-12">
-
-                    <ul class="list-style-two">
-                        <li><span class="icon flaticon-home-1"></span><strong>Address</strong>{{$rows->address}}</li>
-                        <li><span class="icon flaticon-envelope-1"></span><strong>Send your mail at</strong>{{$rows->email}}</li>
-                        <li><span class="icon flaticon-technology-2"></span><strong>Have Any Question</strong>{{$rows->phone}}</li>
-                        <li><span class="icon flaticon-clock-1"></span><strong>Working Hours</strong>{{$rows->hours}}</li>
-                    </ul>
-
+                <div class="col-lg-8 col-md-12">
+                    <div id="map">
+                        <iframe
+                            width="600"
+                            height="450"
+                            style="border:0"
+                            loading="lazy"
+                            allowfullscreen
+                            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAOc0-5SE59M8qVpKbDKPPt7bda9xiOEaE&q=Parallax Soft Inc">
+                        </iframe>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 @endsection
 @section('js')
     <script>
-
+        $(document).ready(function() {
+            $(".main-header-area").removeClass();
+            $('.main-navbar').css('background-color', '#F7F7F7');
+            $('.navbar-expand-md').css('background-color', '#F7F7F7');
+        });
     </script>
 @endsection

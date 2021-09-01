@@ -1,398 +1,436 @@
 @extends('website.layout')
-@section('title', 'Home')
-@section('hhh', 'current')
+@section('home', 'active')
 @section('content')
-    @php
-        use Illuminate\Support\Facades\DB;
-            $rows = DB::table('company_info')->first();
-            $services = DB::table('services')->get();
-    @endphp
 
-    <section class="main-slider">
-        <div class="rev_slider_wrapper fullwidthbanner-container"  id="rev_slider_one_wrapper" data-source="gallery">
-            <div class="rev_slider fullwidthabanner" id="rev_slider_one" data-version="5.4.1">
-                <ul>
-                    @foreach($slides as $slide)
-                        <li>
-                            <img src="{{url('public/images/'.$slide->slide)}}">
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
-        <div class="contact-number"><span class="icon flaticon-phone-call"></span>Call Us: {{$rows->phone}}</div>
-    </section>
-    <section class="success-section">
-        <div class="auto-container">
-            <div class="row clearfix">
-
-                <!--Image Column-->
-                <div class="image-column col-md-5 col-sm-12 col-xs-12">
-                    <div class="inner-column">
-                        <div class="image">
-                            <img src="{{url('public/images/resource/success-1.jpg')}}" alt="" />
+    <div class="main-banner-with-large-shape-area without-banner-animation">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 col-md-12">
+                    <div class="main-banner-white-content">
+                        <div class="tag wow fadeInLeft" data-wow-delay="300ms" data-wow-duration="1000ms">
+                             {{$info->name}}. Best Startup Company.
                         </div>
-                        <div class="small-img">
-                            <img src="{{url('public/images/resource/success-2.jpg')}}" alt="" />
+                        <h1 class="wow fadeInLeft" data-wow-delay="00ms" data-wow-duration="1000ms" style="text-align: justify;"> {{$info->name}}, Best IT Startup Consulting Company.</h1>
+                        <p class="wow fadeInLeft just" data-wow-delay="100ms" data-wow-duration="1000ms" style="text-align: justify;">{{substr($info->about,0,300).'...'}}</p>
+                        <div class="banner-btn">
+                            <a href="{{url('about')}}" class="default-btn wow fadeInRight" data-wow-delay="200ms" data-wow-duration="1000ms">Read More <i class="ri-arrow-right-line"></i><span></span></a>
                         </div>
                     </div>
                 </div>
-                <!--Content Column-->
-                <div class="content-column col-md-7 col-sm-12 col-xs-12">
-                    <div class="inner-column">
-                        <div class="since-year clearfix">
-                            <span class="title">since</span>
-                            <div class="year-img" style="font-size: 50px; color: black;"><b>2015</b></div>
+                <div class="col-lg-7 col-md-12">
+                    <div class="main-banner-image-wrap wow fadeInUp" data-wow-delay="00ms" data-wow-duration="1000ms" data-speed="0.06" data-revert="true">
+                        <img src="{{url('public/assets/images/main-banner/banner-one/main-pic.png')}}" alt="image">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-banner-shape-5">
+            <img src="{{url('public/assets/images/main-banner/banner-two/shape-1.png')}}" alt="image">
+        </div>
+        <div class="main-banner-shape-6">
+            <img src="{{url('public/assets/images/main-banner/banner-two/shape-2.png')}}" alt="image">
+        </div>
+        <div class="main-banner-shape-7">
+            <img src="{{url('public/assets/images/main-banner/banner-two/shape-3.png')}}" alt="image">
+        </div>
+        <div class="main-banner-shape-8">
+            <img src="{{url('public/assets/images/main-banner/banner-two/shape-4.png')}}" alt="image">
+        </div>
+        <div class="main-banner-large-shape">
+            <img src="{{url('public/assets/images/main-banner/banner-two/large-shape.png')}}" alt="image">
+        </div>
+    </div>
+    <div class="features-area pt-100 pb-70">
+        <div class="container">
+            <div class="section-title">
+                <h2>Services We Offer</h2>
+                <p>We provide most effective, professional, cheapest service.</p>
+            </div>
+            <div class="row justify-content-center">
+                @foreach($services as $service)
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-features-box" style="text-align: justify;">
+                        <a href="{{url('service-details/'.$service->slug)}}"><center><img src="{{url('public/images/'.$service->image)}}" alt="image"></center>
+                            <h3>{{$service->title}}</h3>
+                            <p style="text-align: justify;">{!! nl2br(substr($service->description,0,130)).'...Read More' !!}</p>
+                        </a>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        <div class="features-shape-1" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/features/shape-1.png')}}" alt="image">
+        </div>
+        <div class="features-shape-2" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/features/shape-2.png')}}" alt="image">
+        </div>
+        <div class="features-shape-3">
+            <img src="{{url('public/assets/images/features/shape-3.png')}}" alt="image">
+        </div>
+        <div class="features-shape-4">
+            <img src="{{url('public/assets/images/features/shape-4.png')}}" alt="image">
+        </div>
+    </div>
+    <div class="process-area pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-process-box">
+                        <i class="ri-hard-drive-line"></i>
+                        <p>Research</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-process-box bg-36CC72">
+                        <i class="ri-pie-chart-line"></i>
+                        <p>Analyze</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-process-box bg-FF414B">
+                        <i class="ri-quill-pen-line"></i>
+                        <p>Design & Coding</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-process-box bg-FF6D3D">
+                        <i class="ri-focus-line"></i>
+                        <p>Testing & Launch</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="about-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="about-image" data-speed="0.02" data-revert="true">
+                        <img src="{{url('public/assets/images/about/about.png')}}" alt="image">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-item">
+                        <div class="about-content">
+                            <div class="tag">
+                                <img src="{{url($info->photo)}}" alt="image">
+                            </div>
                             @php
                                 $date1 = "2015-01-01";
                                 $date2 = date('Y-m-d');
                                 $diff = abs(strtotime($date2) - strtotime($date1));
 
                                 $years = floor($diff / (365*60*60*24));
-                                $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-                                $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
                             @endphp
-                            <div class="work">{{$years.' '}} Years OF<strong>Success</strong><span>Work</span></div>
+                            <h3>Over {{$years}}  Year Professional Experiences</h3>
+                            <p style="text-align: justify;">{!! nl2br($info->about)  !!}</p>
                         </div>
-                        <div class="text text-justify">Apparently we had reached a great height in the atmosphere for the sky was a dead black and the stars headcase to twinkle. We providing international construction services company and is a leading builder in diverse market segments. The company earned recognition for undertaking large, complex projects, fostering innovation, embracing emerging technologies and making a difference.</div>
-
-                        <div class="fact-">
-                            <div class="row clearfix">
-
-                                <!--Column-->
-                                <div class="column -column col-md-3 col-sm-6 col-xs-12">
-                                    <div class="inner">
-                                        <div class="-outer -box">
-                                            <span class="-text" style="font-size: 40px; color: black;" data-speed="3500" data-stop="200">85</span>
-                                            <h4 class="-title">Projects</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--Column-->
-                                <div class="column -column col-md-3 col-sm-6 col-xs-12">
-                                    <div class="inner">
-                                        <div class="-outer -box">
-                                            <span class="-text" style="font-size: 40px; color: black;" data-speed="2500" data-stop="895">35</span>
-                                            <h4 class="-title">Employers</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--Column-->
-                                <div class="column -column col-md-3 col-sm-6 col-xs-12">
-                                    <div class="inner">
-                                        <div class="-outer -box">
-                                            <span class="-text" style="font-size: 40px; color: black;" data-speed="2200" data-stop="954">251</span>
-                                            <h4 class="-title">Customers</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--Column-->
-                                <div class="column -column col-md-3 col-sm-6 col-xs-12">
-                                    <div class="inner">
-                                        <div class="-outer -box">
-                                            <span class="-text" style="font-size: 40px; color: black;" data-speed="2000" data-stop="25">03</span>
-                                            <h4 class="-title">Awards</h4>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
+                        <div class="about-inner-content">
+                            <img src="{{url('public/assets/images/about/img1.png')}}" alt="image">
+                            <p>Best strategic planner company for development of software in Bangladesh.</p>
                         </div>
-
+                        <div class="about-inner-content">
+                            <img src="{{url('public/assets/images/about/img2.png')}}" alt="image">
+                            <p>Best software provider company in Bangladesh. Many ready software are in our hub.</p>
+                        </div>
+                        <div class="about-inner-content">
+                            <img src="{{url('public/assets/images/about/img3.png')}}" alt="image">
+                            <p>Strong and professional team provide service.</p>
+                        </div>
+                        <div class="about-btn">
+                            <a href="{{url('about')}}" class="default-btn">Read More <i class="ri-arrow-right-line"></i><span></span></a>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
-    </section>
-    <section class="services-section">
-        <div class="auto-container">
-            <div class="sec-title">
-                <div class="title">We Build Your Hope</div>
-                <h2><span class="theme_color">Our</span> Services</h2>
-            </div>
-            <div class="three-item-carousel owl-carousel owl-theme">
-                @foreach($services as $service)
-                <div class="services-block">
-                    <div class="inner-box">
-                        <div class="image">
-                            <a href="{{url('service?cat='.$service->id)}}"><img src="{{'public/images/'.$service->image}}" alt="" /></a>
+        <div class="about-shape-1" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/about/shape-1.png')}}" alt="image">
+        </div>
+        <div class="about-shape-2" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/about/shape-2.png')}}" alt="image">
+        </div>
+        <div class="about-shape-3" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/about/shape-3.png')}}" alt="image">
+        </div>
+        <div class="about-shape-4" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/about/shape-4.png')}}" alt="image">
+        </div>
+        <div class="about-shape-5" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/about/shape-5.png')}}" alt="image">
+        </div>
+        <div class="about-shape-6" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/about/shape-4.png')}}" alt="image">
+        </div>
+        <div class="about-shape-7" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/about/shape-5.png')}}" alt="image">
+        </div>
+    </div>
+    <div class="technology-area pb-100">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-12">
+                    <div class="technology-content">
+                        <div class="tag">
+                            <img src="{{url($info->photo)}}" alt="image">
                         </div>
-                        <div class="lower-content">
-                            <div class="upper-box">
-                                <div class="icon-box">
-                                    <span class="icon flaticon-drawing"></span>
-                                </div>
-                                <h3><a href="{{url('service?cat='.$service->id)}}">{{$service->title}}</a></h3>
+                        <h3>Lightning-Fast Tech Support, Guaranteed</h3>
+                        <p style="text-align: justify;">As a  software development company, we combine the best of both worlds. We have the focus and speed of the small IT outsourcing companies along with the scalability and expertise of the big ones.</p>
+                        <span><b>Syed Muradul Islam,</b> CEO at Parallax Soft Inc</span>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <div class="technology-image">
+                        <img src="{{url('public/assets/images/technology/technology-1.jpg')}}" alt="image">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="technology-shape-1" data-speed="0.02" data-revert="true">
+            <img src="{{url('public/assets/images/technology/shape-1.png')}}" alt="image">
+        </div>
+        <div class="technology-shape-2" data-speed="0.03" data-revert="true">
+            <img src="{{url('public/assets/images/technology/shape-2.png')}}" alt="image">
+        </div>
+        <div class="technology-shape-3" data-speed="0.04" data-revert="true">
+            <img src="{{url('public/assets/images/technology/shape-1.png')}}" alt="image">
+        </div>
+        <div class="technology-shape-4" data-speed="0.05" data-revert="true">
+            <img src="{{url('public/assets/images/technology/shape-2.png')}}" alt="image">
+        </div>
+        <div class="technology-shape-5" data-speed="0.06" data-revert="true">
+            <img src="{{url('public/assets/images/technology/shape-3.png')}}" alt="image">
+        </div>
+        <div class="technology-shape-6" data-speed="0.07" data-revert="true">
+            <img src="{{url('public/assets/images/technology/shape-4.png')}}" alt="image">
+        </div>
+        <div class="technology-shape-7" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/technology/shape-3.png')}}" alt="image">
+        </div>
+        <div class="technology-shape-8" data-speed="0.09" data-revert="true">
+            <img src="{{url('public/assets/images/technology/shape-4.png')}}" alt="image">
+        </div>
+    </div>
+    <div class="fun-facts-area">
+        <div class="container">
+            <div class="fun-facts-box">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single-fun-fact">
+                            <div class="icon">
+                                <i class="ri-user-line"></i>
                             </div>
-                            <div class="text text-justify" style="color: black;">{{substr($service->description,0,150)}}<a href="{{url('service?cat='.$service->id)}}"><b>{{' More...'}}</b></a></div>
+                            <h3>
+                                <span class="odometer" data-count="390">00</span>
+                                <span class="sign-icon">+</span>
+                            </h3>
+                            <p>Total Cases</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single-fun-fact">
+                            <div class="icon">
+                                <i class="ri-briefcase-line"></i>
+                            </div>
+                            <h3>
+                                <span class="odometer" data-count="365">00</span>
+                                <span class="sign-icon">+</span>
+                            </h3>
+                            <p>Case Solved</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single-fun-fact">
+                            <div class="icon">
+                                <i class="ri-trophy-line"></i>
+                            </div>
+                            <h3>
+                                <span class="odometer" data-count="35">00</span>
+                                <span class="sign-icon">+</span>
+                            </h3>
+                            <p>Ready Software</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single-fun-fact">
+                            <div class="icon">
+                                <i class="ri-flag-line"></i>
+                            </div>
+                            <h3>
+                                <span class="odometer" data-count="18">00</span>
+                                <span class="sign-icon">+</span>
+                            </h3>
+                            <p>Country Over</p>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="fun-facts-shape-1" data-speed="0.09" data-revert="true">
+            <img src="{{url('public/assets/images/fun-facts/shape-1.png')}}" alt="image">
+        </div>
+        <div class="fun-facts-shape-2" data-speed="0.05" data-revert="true">
+            <img src="{{url('public/assets/images/fun-facts/shape-2.png')}}" alt="image">
+        </div>
+        <div class="fun-facts-shape-3" data-speed="0.09" data-revert="true">
+            <img src="{{url('public/assets/images/fun-facts/shape-3.png')}}" alt="image">
+        </div>
+        <div class="fun-facts-shape-4" data-speed="0.05" data-revert="true">
+            <img src="{{url('public/assets/images/fun-facts/shape-4.png')}}" alt="image">
+        </div>
+    </div>
+    <div class="projects-area ptb-100">
+        <div class="container-fluid">
+            <div class="section-title">
+                <h2>Our Recent Projects</h2>
+                <p>We do aur best to make a project well and  to feel the client happy. </p>
+            </div>
+            <div class="projects-slides owl-carousel owl-theme">
+                @foreach($projects as $project)
+                    <div class="single-projects">
+                        <div class="projects-image">
+                            <a href="{{url('product-details/'.$project->slug)}}"><img src="{{'public/images/'.$project->cover_phote}}" alt="image"></a>
+                        </div>
+                        <div class="projects-content">
+                            <h3>
+                                <a href="{{url('product-details/'.$project->slug)}}">{{$project->name}}</a>
+                            </h3>
+                            <p style="text-align: justify;">{{nl2br(substr($project->info,0,140)).'...'}}</p>
+                            <a href="{{url('product-details/'.$project->slug)}}" class="projects-btn">Read More <i class="ri-arrow-right-line"></i></a>
+                        </div>
+                    </div>
                 @endforeach
             </div>
         </div>
-    </section>
-
-    <section class="fluid-section-one">
-        <div class="outer-container clearfix">
-            <!--Image Column-->
-            <div class="image-column" style="background-image:url(public/images/resource/image-1.jpg);">
-                <figure class="image-box"><img src="{{url('public/images/resource/image-1.jpg')}}" alt=""></figure>
-            </div>
-            <!--Content Column-->
-            <div class="content-column">
-                <div class="inner-box">
-                    <div class="sec-title">
-                        <div class="title">We Offer Best Services & Solutions</div>
-                        <h2><span class="theme_color">Why </span> Choose Us</h2>
-                    </div>
-                    <div class="text text-justify">{!!  nl2br($infos->choose) !!}</div>
-                    <ul class="list-style-one clearfix">
-                        <li class="col-md-6 col-sm-6 col-xs-12"><span class="icon flaticon-briefcase-1"></span>EXPERT & PROFESSIONAL</li>
-                        <li class="col-md-6 col-sm-6 col-xs-12"><span class="icon flaticon-diamond-1"></span>PROFESSIONAL APPROACH</li>
-                        <li class="col-md-6 col-sm-6 col-xs-12"><span class="icon flaticon-bank-building"></span>HIGH QUALITY WORK</li>
-                        <li class="col-md-6 col-sm-6 col-xs-12"><span class="icon flaticon-two-fingers-up"></span>SATISFACTION GUARANTEE</li>
-                        <li class="col-md-6 col-sm-6 col-xs-12"><span class="icon flaticon-brickwall"></span>PREVIOUS EXPERIENCE </li>
-                        <li class="col-md-6 col-sm-6 col-xs-12"><span class="icon flaticon-user"></span>STRONG TEAM </li>
-                        <li class="col-md-6 col-sm-6 col-xs-12"><span class="icon flaticon-timer"></span>TIMELY HANDOVER </li>
-                        <li class="col-md-6 col-sm-6 col-xs-12"><span class="icon flaticon-time"></span>24/7 SERVICE </li>
-                    </ul>
-                </div>
-            </div>
+        <div class="projects-shape-1" data-speed="0.09" data-revert="true">
+            <img src="{{url('public/assets/images/projects/shape-1.png')}}" alt="image">
         </div>
-    </section>
-    <section class="services-section-two" style="background-image:url(images/background/4.jpg)">
-        <div class="auto-container">
-            <div class="sec-title centered">
-                <div class="title">Services We Offer & Solutions</div>
-                <h2><span class="theme_color">Our</span> Main Services</h2>
+        <div class="projects-shape-2" data-speed="0.09" data-revert="true">
+            <img src="{{url('public/assets/images/projects/shape-2.png')}}" alt="image">
+        </div>
+        <div class="projects-shape-3" data-speed="0.09" data-revert="true">
+            <img src="{{url('public/assets/images/projects/shape-3.png')}}" alt="image">
+        </div>
+        <div class="projects-shape-4" data-speed="0.09" data-revert="true">
+            <img src="{{url('public/assets/images/projects/shape-4.png')}}" alt="image">
+        </div>
+        <div class="projects-shape-5" data-speed="0.09" data-revert="true">
+            <img src="{{url('public/assets/images/projects/shape-5.png')}}" alt="image">
+        </div>
+    </div>
+    <div class="clients-area ptb-100">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Respected Clients</h2>
+                <p>Which peoples loves us a lot, please check out what about says about us</p>
             </div>
-            <div class="row clearfix">
-                @foreach($services as $service)
-                <div class="services-block-two col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <div class="inner-box">
-                        <div class="upper-box">
-                            <div class="icon-box">
-                                <span class="icon flaticon-brick-wall"></span>
-                            </div>
-                            <h3><a href="{{url('service?cat='.$service->id)}}">{{$service->title}}</a></h3>
+            <div class="clients-slides owl-carousel owl-theme">
+                @foreach($clients as $client)
+                    <div class="clients-item">
+                        <img src="{{url('public/images/'.$client->photo)}}" alt="image" style="height: 85px; width: 85px;">
+                        <p>{{substr($client->testimonial.'...',0,90)}}</p>
+                        <div class="title-name">
+                            <h3>{{$client->name}}</h3>
+                            <span>{{$client->designation}}</span>
                         </div>
-                        <div class="text text-justify">{{substr($service->description,0,120).'...'}}</div>
-                        <a href="{{url('service?cat='.$service->id)}}" class="read-more">Read More <span class="fa fa-angle-right"></span></a>
+                        <div class="star-rating">
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                        </div>
+                        <div class="shape-1">
+                            <img src="{{url('public/assets/images/clients/shape-4.png')}}" alt="image">
+                        </div>
+                        <div class="shape-2">
+                            <img src="{{url('public/assets/images/clients/shape-5.png')}}" alt="image">
+                        </div>
+                        <div class="shape-3">
+                            <img src="{{url('public/assets/images/clients/shape-6.png')}}" alt="image">
+                        </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
-    </section>
-    <section class="project-section">
-        <div class="auto-container">
-            <div class="sec-title centered">
-                <div class="title">Our Best Works</div>
-                <h2><span class="theme_color">Our</span> Recent Projects</h2>
-            </div>
-
-            <!--MixitUp Galery-->
-            <div class="mixitup-gallery">
-
-                <!--Filter-->
-                <div class="filters clearfix">
-                    <ul class="filter-tabs filter-btns clearfix">
-                        <li class="active filter" data-role="button" data-filter="all">Show All</li>
-                        @foreach($types as $type)
-                            <li class="filter" data-role="button" data-filter="{{'.'.$type->type}}">{{$type->type}}</li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <div class="filter-list row clearfix">
-                    @foreach($projects as $project)
-                    <div class="gallery-item mix all {{$project->type}} col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="inner-box">
-                            <figure class="image-box">
-                                <img src="{{'public/images/'.$project->cover_phote}}" alt="">
-                                <!--Overlay Box-->
-                                <div class="overlay-box">
-                                    <div class="overlay-inner">
-                                        <ul>
-                                            <li><a href="{{url('project-details?id='.$project->id)}}" class="image-link"><span class="icon fa fa-link"></span></a></li>
-                                            <li><a href="{{'public/images/'.$project->cover_phote}}" data-fancybox="images" data-caption="" class="link"><span class="icon flaticon-picture-gallery"></span></a></li>
-                                        </ul>
-                                        <div class="content">
-                                            <h3><a href="{{url('project-details?id='.$project->id)}}">{{$project->name}}</a></h3>
-                                            <div class="category">{{$project->type}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </figure>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-
+        <div class="clients-shape-1" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/clients/shape-1.png')}}" alt="image">
         </div>
-    </section>
-    <!--End Project Section-->
-
-    <!--Call To Action-->
-    <section class="call-to-action-section" style="background-image:url(public/images/background/2.jpg)">
-        <div class="auto-container">
-            <div class="row clearfix">
-                <!--Text Column-->
-                <div class="text-column col-md-9 col-sm-12 col-xs-12">
-                    <div class="text">We provide experience & <span class="theme_color">high level construction</span> work solution for you!!</div>
-                </div>
-                <!--Btn Column-->
-                <div class="btn-column col-md-3 col-sm-12 col-xs-12">
-                    <a href="{{url('contact')}}" class="theme-btn btn-style-three">Start A Project</a>
-                </div>
-            </div>
+        <div class="clients-shape-2" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/clients/shape-2.png')}}" alt="image">
         </div>
-    </section>
-    <!--End Call To Action-->
-
-    <!--Featured Section-->
-    <section class="featured-section">
-        <div class="auto-container">
-            <div class="row clearfix">
-
-                <!--Content Column-->
-                <div class="content-column col-md-6 col-sm-12 col-xs-12">
-                    <div class="inner-column">
-                        <div class="sec-title">
-                            <div class="title">Checkout Our Video For</div>
-                            <h2><span class="theme_color">Featured</span> Work</h2>
-                        </div>
-                        <div class="text text-justify">
-                            <p>Our main focus to help your business growth and your business marketing strategy for profitable scale. We are following below issues</p>
-                            <p>We partner with over 251 amazing seeds projects worldwide, & have given over million in cash & product grants to other groups since 2015 our own dynamic suite. There anyone who loves or pursues or desires to obtain pain of it is because seeds all occasionally circumstances.</p>
-                        </div>
-                        <a href="{{url('contact')}}" class="theme-btn btn-style-four">Contact Us</a>
-                    </div>
-                </div>
-
-                <!--Video Column-->
-                <div class="video-column col-md-6 col-sm-12 col-xs-12">
-                    <div class="inner-column">
-                        <div class="video-box">
-                            <figure class="image">
-                                <img src="{{url('public/images/resource/video-img.jpg')}}" alt="">
-                                <a href="https://www.youtube.com/watch?v=KsrbdSwaVvA&t=62s" class="lightbox-image overlay-box"><span class="flaticon-arrow"></span></a>
-                            </figure>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+        <div class="clients-shape-3" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/clients/shape-3.png')}}" alt="image">
         </div>
-    </section>
-    <section class="clients-section">
-        <div class="auto-container">
-            <div class="sec-title centered">
-                <h2><span class="theme_color">Our</span> Valuable Clients</h2>
-            </div>
-            <div class="sponsors-outer">
-                <ul class="sponsors-carousel owl-carousel owl-theme">
-                    @foreach($clients as $client)
-                        <li class="slide-item"><figure class="image-box"><a href="#"><img src="{{url('public/images/'.$client->photo)}}" height="150" width="150" alt=""></a></figure></li>
-                    @endforeach
-                </ul>
-            </div>
-
-        </div>
-    </section>
-    <section class="contact-info-section">
-        <!--Map Section-->
-        <div class="map-section">
-            <!--Map Outer-->
-            <div class="map-outer">
-                <!--Map Canvas-->
-                <div class="map-canvas"
-                     data-zoom="10"
-                     data-lat="23.798914766489954",
-                     data-lng=" 90.40298054023401"
-                     data-type="roadmap"
-                     data-hue="#ffc400"
-                     data-title="{{$rows->name}}"
-                     data-icon-path="{{url("public/images/icons/map-marker.png")}}"
-                     data-content="{{$rows->address}}<br><a href='mailto:{{$rows->email}}'>{{$rows->email}}</a>">
-                </div>
-            </div>
-        </div>
-        <!--Map Section-->
-        <div class="auto-container">
-            <div class="inner-container">
-                <div class="row clearfix">
-                    <!--Info Column-->
-                    <div class="info-column col-md-4 col-sm-12 col-xs-12">
-                        <div class="inner-column">
-                            <ul class="list-style-two">
-                                <li><span class="icon flaticon-home-1"></span><strong>Address</strong>{{$rows->address}}</li>
-                                <li><span class="icon flaticon-envelope-1"></span><strong>Send your mail at</strong>{{$rows->email}}</li>
-                                <li><span class="icon flaticon-technology-2"></span><strong>Have Any Question</strong>{{$rows->phone}}</li>
-                                <li><span class="icon flaticon-clock-1"></span><strong>Working Hours</strong>{{$rows->hours}}</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--Form Column-->
-                    <div class="form-column col-md-8 col-sm-12 col-xs-12">
-                        <div class="inner-column">
-                            <h2>Contact Us</h2>
-                            <!--Contact Form-->
-                            <div class="contact-form">
-                                {{ Form::open(array('url' => 'send-mail',  'method' => 'post')) }}
-                                {{ csrf_field() }}
-                                <div class="row clearfix">
-                                    <div class="row clearfix">
-                                        <div class="form-group col-md-6 col-sm-6 co-xs-12">
-                                            <input type="text" name="name" value="" placeholder="Name" required>
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-6 co-xs-12">
-                                            <input type="email" name="email" value="" placeholder="Email" required>
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-6 co-xs-12">
-                                            <input type="text" name="subject" value="" placeholder="Subject" required>
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-6 co-xs-12">
-                                            <input type="text" name="phone" value="" placeholder="Phone" required>
-                                        </div>
-                                        <div class="form-group col-md-12 col-sm-12 co-xs-12">
-                                            <textarea name="message" placeholder="Your Massage"></textarea>
-                                        </div>
-                                        <div class="form-group col-md-12 col-sm-12 co-xs-12">
-                                            <button type="submit" class="theme-btn btn-style-one">Send Message</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{ Form::close() }}
-                            </div>
-                            @if ($message = Session::get('successMessage'))
-                                <div class="alert alert-success alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <h4><i class="icon fa fa-check"></i> Thank You!!</h4>
-                                    {{ $message }}</b>
-                                </div>
-                            @endif
-                            @if ($message = Session::get('errorMessage'))
-
-                                <div class="alert alert-warning alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <h4><i class="icon fa fa-warning"></i> Sorry!</h4>
-                                    {{ $message }}
-                                </div>
-                            @endif
-                        </div>
+    </div>
+    <div class="overview-area">
+        <div class="container">
+            <div class="overview-box">
+                <div class="overview-content">
+                    <h3>Let's Make Something Amazing Together</h3>
+                    <div class="overview-btn">
+                        <a href="{{url('contact')}}" class="overview-btn-one">Get Started</a>
+                        <img src="{{url('public/assets/images/overview/bar.png')}}" alt="image">
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+        <div class="overview-shape-1" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/overview/shape-1.png')}}" alt="image">
+        </div>
+        <div class="overview-shape-2" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/overview/shape-2.png')}}" alt="image">
+        </div>
+        <div class="overview-shape-3" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/overview/shape-3.png')}}" alt="image">
+        </div>
+        <div class="overview-shape-4" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/overview/shape-4.png')}}" alt="image">
+        </div>
+        <div class="overview-shape-5" data-speed="0.08" data-revert="true">
+            <img src="{{url('public/assets/images/overview/shape-5.png')}}" alt="image">
+        </div>
+    </div>
+
+
+    <div class="partner-area ptb-100">
+        <div class="container">
+            <div class="partner-slides owl-carousel owl-theme">
+                <div class="single-partner">
+                    <a href="#"><img src="{{url('public/assets/images/partner/php.jpg')}}" alt="image"></a>
+                </div>
+                <div class="single-partner">
+                    <a href="#"><img src="{{url('public/assets/images/partner/laravel.png')}}" alt="image"></a>
+                </div>
+                <div class="single-partner">
+                    <a href="#"><img src="{{url('public/assets/images/partner/codigniter.jpg')}}" alt="image"></a>
+                </div>
+                <div class="single-partner">
+                    <a href="#"><img src="{{url('public/assets/images/partner/android.jpg')}}" alt="image"></a>
+                </div>
+                <div class="single-partner">
+                    <a href="#"><img src="{{url('public/assets/images/partner/jquery.png')}}" alt="image"></a>
+                </div>
+                <div class="single-partner">
+                    <a href="#"><img src="{{url('public/assets/images/partner/mysqlp.png')}}" alt="image"></a>
+                </div>
+                <div class="single-partner">
+                    <a href="#"><img src="{{url('public/assets/images/partner/node.png')}}" alt="image"></a>
+                </div>
+                <div class="single-partner">
+                    <a href="#"><img src="{{url('public/assets/images/partner/vue.png')}}" alt="image"></a>
+                </div>
+                <div class="single-partner">
+                    <a href="#"><img src="{{url('public/assets/images/partner/partner-3.png')}}" alt="image"></a>
+                </div>
+                <div class="single-partner">
+                    <a href="#"><img src="{{url('public/assets/images/partner/partner-5.png')}}" alt="image"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 @section('js')
     <script>

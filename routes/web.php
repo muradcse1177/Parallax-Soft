@@ -16,17 +16,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/' , 'WebsiteController@index');
 Route::get('about' , 'WebsiteController@about');
-Route::get('project-details' , 'WebsiteController@projectDetails');
+Route::post('payment' , 'AuthController@payment');
+Route::get('product-details/{slug}' , 'WebsiteController@productdetails');
+Route::get('checkout/{slug}' , 'WebsiteController@checkout');
+Route::get('myOrders' , 'WebsiteController@myOrders');
+Route::get('confirmPaymentData' , 'AuthController@confirmPaymentData');
 Route::get('all-projects' , 'WebsiteController@allProjects');
 Route::get('contact' , 'WebsiteController@contact');
-Route::get('all-services' , 'WebsiteController@allServices');
-Route::get('service' , 'WebsiteController@service');
+Route::get('services' , 'WebsiteController@allServices');
+Route::get('/service-details/{slug}' , 'WebsiteController@serviceDetails');
 Route::post('send-mail' , 'WebsiteController@sendMail');
-Route::get('client' , 'WebsiteController@client');
+Route::get('clients' , 'WebsiteController@client');
 Route::get('logout' , 'AuthController@logout');
 Route::post('verifyUser' , 'AuthController@verifyUsers');
 Route::get('/login', function () {
-    return view('admin.login');
+    return view('website.login');
+});
+Route::get('shop', function () {
+    return view('website.coming-soon');
 });
 if(Cookie::get('role') != null){
     Route::get('home' , 'SettingController@company_info');
@@ -40,11 +47,20 @@ if(Cookie::get('role') != null){
     Route::post('insertServices' , 'SettingController@insertServices');
     Route::post('getServicesById' , 'SettingController@getServicesById');
     Route::post('deleteServiceList' , 'SettingController@deleteServiceList');
-    Route::get('projects' , 'SettingController@projects');
+    Route::get('category' , 'SettingController@category');
+    Route::post('insertCategory' , 'SettingController@insertCategory');
+    Route::post('getCategoryById' , 'SettingController@getCategoryById');
+    Route::post('deleteCategoryList' , 'SettingController@deleteCategoryList');
+    Route::get('subCategory' , 'SettingController@subCategory');
+    Route::post('insertSubCategory' , 'SettingController@insertSubCategory');
+    Route::get('getSubCatIdListAll' , 'SettingController@getSubCatIdListAll');
+    Route::post('getSubCategoryById' , 'SettingController@getSubCategoryById');
+    Route::post('deleteSubCategoryList' , 'SettingController@deleteSubCategoryList');
+    Route::get('products' , 'SettingController@products');
     Route::post('insertProjects' , 'SettingController@insertProjects');
     Route::post('getProjectById' , 'SettingController@getProjectById');
     Route::post('deleteProjectList' , 'SettingController@deleteProjectList');
-    Route::get('clients' , 'SettingController@clients');
+    Route::get('clientAdmin' , 'SettingController@clients');
     Route::post('insertClients' , 'SettingController@insertClients');
     Route::post('getClientsById' , 'SettingController@getClientsById');
     Route::post('deleteClientList' , 'SettingController@deleteClientList');
