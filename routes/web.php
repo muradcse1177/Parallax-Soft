@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/' , 'WebsiteController@index');
 Route::get('about' , 'WebsiteController@about');
+Route::get('shop' , 'WebsiteController@shop');
 Route::post('payment' , 'AuthController@payment');
 Route::get('product-details/{slug}' , 'WebsiteController@productdetails');
 Route::get('checkout/{slug}' , 'WebsiteController@checkout');
@@ -32,9 +33,7 @@ Route::post('verifyUser' , 'AuthController@verifyUsers');
 Route::get('/login', function () {
     return view('website.login');
 });
-Route::get('shop', function () {
-    return view('website.coming-soon');
-});
+
 if(Cookie::get('role') != null){
     Route::get('home' , 'SettingController@company_info');
     Route::post('insertCompanyInfo' , 'SettingController@insertCompanyInfo');

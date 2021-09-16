@@ -199,4 +199,19 @@ class WebsiteController extends Controller
             return back()->with('errorMessage', $ex->getMessage());
         }
     }
+    public function shop(Request $request){
+        try{
+            SEOMeta::setTitle('Clients || Parallax Soft Inc');
+            SEOMeta::setDescription('Parallax Soft Inc is the 0ne of the best Software Company . We are providing a best software solution for your business.We provide custom mobile, web and desktop software development services all over the world');
+            SEOMeta::addKeyword(['cyber','bangladesh','web developer','web designer','it company','web builder','website builder','Domain & Hosting Company','It consulting Company','Cloud Computing Company BD','App developer Company Bd','wesite developer company in bd','Ecommerce site builder in bd' ]);
+            $products = DB::table('projects')->orderBy('id','desc')->paginate(60);
+            return view('website.shop',
+                ['projects' => $products,'projects_count' => $products->count(),]
+            );
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            return back()->with('errorMessage', $ex->getMessage());
+        }
+    }
+
 }
